@@ -4,7 +4,6 @@
     <string name="title_introductory_activity">Matrix</string>
     <string name="title_wifi_connection_activity">Check Conexão Wifi</string>
     <string name="title_status_gps_activity">Check Status GPS</string>
-    <string name="title_bluetooth_connection_activity">Check Conexão Bluetooth</string>
     <string name="title_activity_video">Matrix</string>
     <string name="title_activity_settings_angles">Configurações</string>
 
@@ -13,7 +12,7 @@
         \n
         2. Mantenha o som de seu smartphone ativo para o recebimento de possíveis notificações.
         \n
-        3. Certifique-se de tem instalado o Google Play Services.
+        3. Certifique-se de ter instalado o Google Play Services.
         \n
         4. Android Mínimo: 5.0 (Lollipop).
         \n
@@ -43,7 +42,5 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Ângulos</string>
-    <string name="action_pair_new_module">Parear com novo módulo bluetooth</string>
-    <string name="action_module_for_connection">Selecionar módulo bluetooth pareado</string>
 
 </resources>
