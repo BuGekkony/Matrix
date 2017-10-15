@@ -25,9 +25,9 @@
         android:layout_height="wrap_content"
         android:id="@+id/imageview_status_gps"
         android:src="@drawable/hero4"
+        android:layout_marginTop="40dp"
         android:layout_below="@+id/textview_message_status_gps"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp" />
+        android:layout_centerHorizontal="true" />
 
     <ImageButton
         android:layout_width="90dp"
@@ -44,11 +44,11 @@
     <ImageButton
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:background="@android:color/transparent"
         android:id="@+id/imagebutton_status_gps"
         android:src="@drawable/camera"
+        android:background="@android:color/transparent"
         android:clickable="true"
-        android:onClick="checkStatusGPS"
+        android:onClick="checkWifiConnection"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@+id/textview_message_status_gps" />
 
