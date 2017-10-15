@@ -27,7 +27,6 @@ public class Notifications {
     private final int ID_NOTIFICATION_STATUS_WIFI_GOPRO = 100;
     private final int ID_NOTIFICATION_CONNECT_WIFI_GOPRO = 175;
     private final int ID_NOTIFICATION_ERROR_CONNECTION = 110;
-    private final int ID_NOTIFICATION_STATUS_BLUETOOTH = 150;
     private final int ID_NOTIFICATION_ERROR_SEND_DATA_GPS = 548;
 
     public Notifications(Context context) {
@@ -133,7 +132,7 @@ public class Notifications {
         builder.setTicker("Matrix");
         builder.setContentTitle("Envio de dados GPS");
         builder.setSmallIcon(R.drawable.gps);
-        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.warning));
+        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.gps));
         builder.setContentIntent(pendingIntent);
         NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle();
         String [] descs = new String[]{"Ocorreu um erro na transferência dos dados de GPS."};
@@ -145,37 +144,6 @@ public class Notifications {
         notifications.vibrate = new long[] {150, 600, 150, 900};
         notifications.flags = Notification.FLAG_AUTO_CANCEL;
         notificationManager.notify(ID_NOTIFICATION_ERROR_SEND_DATA_GPS, notifications);
-        try{
-            Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-            Ringtone ringtone = RingtoneManager.getRingtone(context, sound);
-            ringtone.play();
-        }
-        catch(Exception exception){
-            exception.printStackTrace();
-        }
-    }
-
-
-    public void notificationBluetooth() {
-
-        intent = new Intent(context, VideoActivity.class);
-        pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-        builder = new NotificationCompat.Builder(context);
-        builder.setTicker("Matrix");
-        builder.setContentTitle("Conexão Bluetooth");
-        builder.setSmallIcon(R.drawable.notification_bluetooth);
-        builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.drawable.device_bluetooth));
-        builder.setContentIntent(pendingIntent);
-        NotificationCompat.InboxStyle style = new NotificationCompat.InboxStyle();
-        String [] descs = new String[]{"Conexão com módulo bluetooth perdida."};
-        for(int i = 0; i < descs.length; i++){
-            style.addLine(descs[i]);
-        }
-        builder.setStyle(style);
-        notifications = builder.build();
-        notifications.vibrate = new long[] {150, 600, 150, 900};
-        notifications.flags = Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify(ID_NOTIFICATION_STATUS_BLUETOOTH, notifications);
         try{
             Uri sound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
             Ringtone ringtone = RingtoneManager.getRingtone(context, sound);
