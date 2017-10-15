@@ -9,19 +9,15 @@
     <string name="title_activity_settings_angles">Configurações</string>
 
     <string name="message_introductory_activity">
-        1. Antes de usar o aplicativo, faça o pareamente entre seu smartphone e o módulo bluetooth.
+        1. Antes de usar o aplicativo, conecte-se ao wifi da sua câmera GoPro.
         \n
-        2. Certifique-se de que o wifi da sua GoPro está como no modo APP em configurações.
+        2. Mantenha o som de seu smartphone ativo para o recebimento de possíveis notificações.
         \n
-        3. Mantenha o som de seu smartphone ativo para o recebimento de possíveis notificações.
+        3. Certifique-se de tem instalado o Google Play Services.
         \n
-        4. Certifique-se de que seu smartphone possui bluetooth.
+        4. Android Mínimo: 5.0 (Lollipop).
         \n
-        5. Certifique-se de tem instalado o Google Play Services.
-        \n
-        6. Android Mínimo: 5.0 (Lollipop).
-        \n
-        7. Siga as instruções nas telas seguintes para iniciar o uso do aplicativo.
+        5. Siga as instruções nas telas seguintes para iniciar o uso do aplicativo.
         \n
     </string>
 
