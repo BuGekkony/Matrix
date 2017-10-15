@@ -76,6 +76,7 @@ import com.example.patricia.matrix.DialogsVideo.Shutter48FPS;
 import com.example.patricia.matrix.DialogsVideo.Shutter50FPS;
 import com.example.patricia.matrix.DialogsVideo.Shutter60FPS;
 import com.example.patricia.matrix.DialogsVideo.WhiteBalance;
+import com.example.patricia.matrix.Fragments.FragmentInitial;
 import com.example.patricia.matrix.Fragments.FragmentSurfaceView;
 import com.example.patricia.matrix.Fragments.FragmentVideoActivity;
 import com.example.patricia.matrix.Hero4Black.Hero4BlackCommands;
@@ -226,10 +227,17 @@ public class VideoActivity extends AppCompatActivity implements
         fragmentManager = getSupportFragmentManager();
 
         if( savedInstanceState == null ){
+            fragment = new FragmentInitial();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.frame_layout_surface_view, fragment, "fragment_initial");
+            fragmentTransaction.commit();
+
+            /*
             fragment = new FragmentVideoActivity();
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.add(R.id.frame_layout_surface_view, fragment, "fragment_video_activity");
             fragmentTransaction.commit();
+            */
         }
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -289,7 +297,7 @@ public class VideoActivity extends AppCompatActivity implements
         ao abrir a atividade.
          */
         setViewSettingsCamera(Hero4BlackCommands.status);
-        addFragment(Hero4BlackCommands.status);
+        choiceFragment(Hero4BlackCommands.status);
     }
 
     @Override
@@ -413,6 +421,12 @@ public class VideoActivity extends AppCompatActivity implements
         fragmentTransaction.commit();
     }
 
+    /*
+    O método addFragment será chamado dentro dos Dialogs Fragments quando o número de quadros
+    por segundos for alterado enquanto o serviço de GPS estiver em execução. Pois se o serviço estiver
+    executando e o FPS for alterado é necessário que a view seja atualizada ou com o uso do preview ou
+    com a tela "preta" com a mensagem de que a pré-visualização é indisponível.
+     */
     public static void addFragment(String command) {
 
         Log.d(TAG, "MÉTODO ADD FRAGMENT.");
@@ -491,6 +505,97 @@ public class VideoActivity extends AppCompatActivity implements
         NetworkVolley.getInstance().getRequestQueue().add(stringRequest);
     }
 
+    /*
+    O método choiceFragment será chamado no onStart() para escolher qual fragment deverá ser adicionado
+    ao layout da Atividade Vídeo. Será utilizado tanto para as situações quando o serviço GPS estiver em
+    execução ou não.
+     */
+    public static void choiceFragment(String command) {
+
+        Log.d(TAG, "MÉTODO ADD FRAGMENT.");
+
+        stringRequest = new StringRequest(Request.Method.GET, command,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        try {
+
+                            status = String.valueOf(Html.fromHtml(response));
+
+                            serviceIsRunning = GPSService.isServiceRunning();
+
+                            framesPerSecond = new JSONObject(status).getJSONObject(CATEGORY_SETTINGS).getString("3");
+
+                            numberFramesPerSecond = Integer.parseInt(framesPerSecond);
+
+                            if( serviceIsRunning ) {
+
+                                switch ( numberFramesPerSecond ) {
+
+                                    case ConstantsVideo.VIDEO_FPS_24:
+                                        callFragmentVideoActivity();
+                                        break;
+
+                                    case ConstantsVideo.VIDEO_FPS_25:
+                                        callFragmentVideoActivity();
+                                        break;
+
+                                    case ConstantsVideo.VIDEO_FPS_30:
+                                        callFragmentVideoActivity();
+                                        break;
+
+                                    case ConstantsVideo.VIDEO_FPS_48:
+                                        callFragmentVideoActivity();
+                                        break;
+
+                                    case ConstantsVideo.VIDEO_FPS_50:
+                                        callFragmentVideoActivity();
+                                        break;
+
+                                    case ConstantsVideo.VIDEO_FPS_60:
+                                        callFragmentVideoActivity();
+                                        break;
+
+                                    case ConstantsVideo.VIDEO_FPS_80:
+                                        callFragmentSurfaceView();
+                                        break;
+
+                                    case ConstantsVideo.VIDEO_FPS_90:
+                                        callFragmentSurfaceView();
+                                        break;
+
+                                    case ConstantsVideo.VIDEO_FPS_120:
+                                        callFragmentSurfaceView();
+                                        break;
+
+                                    case ConstantsVideo.VIDEO_FPS_240:
+                                        callFragmentSurfaceView();
+                                        break;
+                                }
+                            } else {
+                                callFragmentVideoActivity();
+                            }
+                        } catch (JSONException exception) {
+                            exception.printStackTrace();
+                            Log.e(TAG, "EXCEÇÃO MÉTODO ADD FRAGMENT: ", exception);
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "MÉTODO ADD FRAGMENT. ERROR RESPONSE: " + error.toString());
+            }
+        });
+        NetworkVolley.getInstance().getRequestQueue().add(stringRequest);
+    }
+
+
+    /*
+    O método setFragmentSurfaceView será chamado dentro do ServiceGPS quando o método
+    onLocationChanged for invocado pela primeira vez. A view será atualizada de acordo
+    com o número de quadros por segundos selecionado.
+     */
     public static void setFragmentSurfaceView(String command) {
 
         Log.d(TAG, "MÉTODO SET FRAGMENT SURFACE VIEW.");
@@ -537,6 +642,12 @@ public class VideoActivity extends AppCompatActivity implements
         NetworkVolley.getInstance().getRequestQueue().add(stringRequest);
     }
 
+    /*
+    O método setFragmentVideo é chamado dentro do ServiceGPS, no método onDestroy.
+    Quando o serviço é encerrado e o FPS é 80, 90, 120 ou 240 , ou seja , um valor
+    em que o preview não é suportado, assim que a execução do serviço for encerrada
+    a view será atualizada com a tela contendo a surface view (preview).
+     */
     public static void setFragmentVideo(String command) {
 
         Log.d(TAG, "MÉTODO SET FRAGMENT VÍDEO.");
