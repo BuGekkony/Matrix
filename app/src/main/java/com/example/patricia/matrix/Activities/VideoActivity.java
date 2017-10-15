@@ -140,7 +140,6 @@ public class VideoActivity extends AppCompatActivity implements
     private static int timeRemaining;
     private static int min;
 
-
     /*
     Variáveis String
      */
@@ -231,13 +230,6 @@ public class VideoActivity extends AppCompatActivity implements
             fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.add(R.id.frame_layout_surface_view, fragment, "fragment_initial");
             fragmentTransaction.commit();
-
-            /*
-            fragment = new FragmentVideoActivity();
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.frame_layout_surface_view, fragment, "fragment_video_activity");
-            fragmentTransaction.commit();
-            */
         }
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -296,8 +288,8 @@ public class VideoActivity extends AppCompatActivity implements
         Atualiza informações superiores: Resolução, Quadros por Segundos e Campo de Visão
         ao abrir a atividade.
          */
-        setViewSettingsCamera(Hero4BlackCommands.status);
         choiceFragment(Hero4BlackCommands.status);
+        setViewSettingsCamera(Hero4BlackCommands.status);
     }
 
     @Override
@@ -395,7 +387,7 @@ public class VideoActivity extends AppCompatActivity implements
         startService(new Intent(VideoActivity.this, GPSService.class));
     }
 
-    public void sendSettingsDefault() {
+    private void sendSettingsDefault() {
         Log.d(TAG, "SEND SETTINGS DEFAULT.");
         NetworkVolley.sendCommand(Hero4BlackCommands.videoModePrimary);
         NetworkVolley.sendCommand(Hero4BlackCommands.videoMode);
@@ -425,7 +417,9 @@ public class VideoActivity extends AppCompatActivity implements
     O método addFragment será chamado dentro dos Dialogs Fragments quando o número de quadros
     por segundos for alterado enquanto o serviço de GPS estiver em execução. Pois se o serviço estiver
     executando e o FPS for alterado é necessário que a view seja atualizada ou com o uso do preview ou
-    com a tela "preta" com a mensagem de que a pré-visualização é indisponível.
+    com a tela "preta" com a mensagem de que a pré-visualização é indisponível. E se o serviço não
+    estiver em execução a view da atividade não precisará de atualização. Apenas será atualizado o
+    textview que exibe as configurações.
      */
     public static void addFragment(String command) {
 
@@ -435,57 +429,40 @@ public class VideoActivity extends AppCompatActivity implements
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
                         try {
-
                             status = String.valueOf(Html.fromHtml(response));
-
                             serviceIsRunning = GPSService.isServiceRunning();
-
                             framesPerSecond = new JSONObject(status).getJSONObject(CATEGORY_SETTINGS).getString("3");
-
                             numberFramesPerSecond = Integer.parseInt(framesPerSecond);
-
                             if( serviceIsRunning ) {
-
                                 switch ( numberFramesPerSecond ) {
-
                                     case ConstantsVideo.VIDEO_FPS_24:
                                         callFragmentVideoActivity();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_25:
                                         callFragmentVideoActivity();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_30:
                                         callFragmentVideoActivity();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_48:
                                         callFragmentVideoActivity();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_50:
                                         callFragmentVideoActivity();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_60:
                                         callFragmentVideoActivity();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_80:
                                         callFragmentSurfaceView();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_90:
                                         callFragmentSurfaceView();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_120:
                                         callFragmentSurfaceView();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_240:
                                         callFragmentSurfaceView();
                                         break;
@@ -508,67 +485,55 @@ public class VideoActivity extends AppCompatActivity implements
     /*
     O método choiceFragment será chamado no onStart() para escolher qual fragment deverá ser adicionado
     ao layout da Atividade Vídeo. Será utilizado tanto para as situações quando o serviço GPS estiver em
-    execução ou não.
+    execução ou não. Também será chamado nas situações em que o usuário clicar no botão "Voltar" do smartphone.
+    Nessa situação a atividade e o fragment serão destruídos e quando ele voltar para a atividade vídeo, será
+    executado novamente o método onCreate() e posteriormente o método onStart() e quando o método choiceFragment
+    for chamado será verificado se o serviço está em execução. Se sim, se verificará qual o FPS setado e de
+    acordo com o valor será atualizada a view com o fragment correto e caso o serviço não esteja executando
+    basta adicionar o fragment com a funcionalidade de preview.
      */
     public static void choiceFragment(String command) {
 
-        Log.d(TAG, "MÉTODO ADD FRAGMENT.");
+        Log.d(TAG, "MÉTODO CHOICE FRAGMENT.");
 
         stringRequest = new StringRequest(Request.Method.GET, command,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
                         try {
-
                             status = String.valueOf(Html.fromHtml(response));
-
                             serviceIsRunning = GPSService.isServiceRunning();
-
                             framesPerSecond = new JSONObject(status).getJSONObject(CATEGORY_SETTINGS).getString("3");
-
                             numberFramesPerSecond = Integer.parseInt(framesPerSecond);
-
                             if( serviceIsRunning ) {
-
                                 switch ( numberFramesPerSecond ) {
-
                                     case ConstantsVideo.VIDEO_FPS_24:
                                         callFragmentVideoActivity();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_25:
                                         callFragmentVideoActivity();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_30:
                                         callFragmentVideoActivity();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_48:
                                         callFragmentVideoActivity();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_50:
                                         callFragmentVideoActivity();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_60:
                                         callFragmentVideoActivity();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_80:
                                         callFragmentSurfaceView();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_90:
                                         callFragmentSurfaceView();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_120:
                                         callFragmentSurfaceView();
                                         break;
-
                                     case ConstantsVideo.VIDEO_FPS_240:
                                         callFragmentSurfaceView();
                                         break;
@@ -578,13 +543,13 @@ public class VideoActivity extends AppCompatActivity implements
                             }
                         } catch (JSONException exception) {
                             exception.printStackTrace();
-                            Log.e(TAG, "EXCEÇÃO MÉTODO ADD FRAGMENT: ", exception);
+                            Log.e(TAG, "EXCEÇÃO MÉTODO CHOICE FRAGMENT: ", exception);
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "MÉTODO ADD FRAGMENT. ERROR RESPONSE: " + error.toString());
+                Log.e(TAG, "MÉTODO CHOICE FRAGMENT. ERROR RESPONSE: " + error.toString());
             }
         });
         NetworkVolley.getInstance().getRequestQueue().add(stringRequest);
@@ -604,16 +569,11 @@ public class VideoActivity extends AppCompatActivity implements
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
                         try {
-
                             status = String.valueOf(Html.fromHtml(response));
-
                             framesPerSecond = new JSONObject(status).getJSONObject(CATEGORY_SETTINGS).getString("3");
-
                             numberFramesPerSecond = Integer.parseInt(framesPerSecond);
-
-                            switch ( numberFramesPerSecond ) {    // 80, 90, 120, 240
+                            switch ( numberFramesPerSecond ) {
                                 case ConstantsVideo.VIDEO_FPS_80:
                                     callFragmentSurfaceView();
                                     break;
@@ -627,7 +587,6 @@ public class VideoActivity extends AppCompatActivity implements
                                     callFragmentSurfaceView();
                                     break;
                             }
-
                         } catch (JSONException exception) {
                             exception.printStackTrace();
                             Log.e(TAG, "EXCEÇÃO MÉTODO SET FRAGMENT SURFACE VIEW: ", exception);
@@ -656,15 +615,10 @@ public class VideoActivity extends AppCompatActivity implements
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
                         try {
-
                             status = String.valueOf(Html.fromHtml(response));
-
                             framesPerSecond = new JSONObject(status).getJSONObject(CATEGORY_SETTINGS).getString("3");
-
                             numberFramesPerSecond = Integer.parseInt(framesPerSecond);
-
                             switch ( numberFramesPerSecond ) {
                                 case ConstantsVideo.VIDEO_FPS_80:
                                     callFragmentVideoActivity();
@@ -679,21 +633,25 @@ public class VideoActivity extends AppCompatActivity implements
                                     callFragmentVideoActivity();
                                     break;
                             }
-
                         } catch (JSONException exception) {
                             exception.printStackTrace();
-                            Log.e(TAG, "EXCEÇÃO MÉTODO SET FRAGMENT VÍDEO.: ", exception);
+                            Log.e(TAG, "EXCEÇÃO MÉTODO SET FRAGMENT VÍDEO: ", exception);
                         }
                     }
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Log.e(TAG, "MÉTODO SET FRAGMENT VÍDEO.. ERROR RESPONSE: " + error.toString());
+                Log.e(TAG, "MÉTODO SET FRAGMENT VÍDEO. ERROR RESPONSE: " + error.toString());
             }
         });
         NetworkVolley.getInstance().getRequestQueue().add(stringRequest);
     }
 
+    /*
+    O método setViewActivityVideo atualiza as informações contidas no textview inferior da tela.
+    Atualiza as informações do número de vídeos armazenados no cartão de memória, o tempo de gravação e
+    o tempo de vídeo remanescente.
+     */
     private static void setViewActivityVideo(String command) {
 
         Log.d(TAG, "SET VIEW ACTIVITY VIDEO.");
@@ -702,18 +660,13 @@ public class VideoActivity extends AppCompatActivity implements
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
                         try {
-
                             status = String.valueOf(Html.fromHtml(response));
-
                             battery = new JSONObject(status).getJSONObject(CATEGORY_STATUS).getString("2");
                             setViewVideo.getVideoBattery(imageViewBattery, battery);
-
                             videoTimeRecording = new JSONObject(status).getJSONObject(CATEGORY_STATUS).getString("13");
                             timeVideoRemaining = new JSONObject(status).getJSONObject(CATEGORY_STATUS).getString("35");
                             videosInsideMemoryCard = new JSONObject(status).getJSONObject(CATEGORY_STATUS).getString("39");
-
                             setTimeRecording();
                             setTimeRemaining();
                             informationBelow = videosInsideMemoryCard + "   " + videoTimeRecording + " " + " / " + " " + timeVideoRemaining;
@@ -721,7 +674,7 @@ public class VideoActivity extends AppCompatActivity implements
 
                         } catch (JSONException exception) {
                             exception.printStackTrace();
-                            Log.e(TAG, "EXCEÇÃO MÉTODO SET VIEW ACTIVITY VIDEO: ", exception);
+                            Log.e(TAG, "EXCEÇÃO SET VIEW ACTIVITY VIDEO: ", exception);
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -733,19 +686,21 @@ public class VideoActivity extends AppCompatActivity implements
         NetworkVolley.getInstance().getRequestQueue().add(stringRequest);
     }
 
+    /*
+    O método statusBattery verifica a carga da bateria. Se a bateria estiver muito baixa e o serviço
+    em execução o mesmo será encerrado e se não estiver em execução apenas será exibido uma caixa de
+    diálogo.
+     */
     private static void statusBattery(String command) {
 
-        Log.d(TAG, "STATUS BATTERY.");
+        Log.d(TAG, "MÉTODO STATUS BATTERY.");
 
         stringRequest = new StringRequest(Request.Method.GET, command,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
                         try {
-
                             status = String.valueOf(Html.fromHtml(response));
-
                             battery = new JSONObject(status).getJSONObject(CATEGORY_STATUS).getString("2");
                             setViewVideo.getVideoBattery(imageViewBattery, battery);
                             serviceIsRunning = GPSService.isServiceRunning();
@@ -755,7 +710,7 @@ public class VideoActivity extends AppCompatActivity implements
                                 alertDialogActivities.alertDialogLowBatteryServiceRunning();
                                 context.stopService(new Intent(context, GPSService.class));
                             }
-                            // bateria extremamente baixa e serviceIsRunning é igual a falso
+                            // bateria extremamente baixa mas serviço não está em execução
                             if( ( battery.equals("0")) && !( serviceIsRunning ) ) {
                                 alertDialogActivities.alertDialogLowBattery();
                             }
@@ -774,34 +729,30 @@ public class VideoActivity extends AppCompatActivity implements
     }
 
     /*
-      Esse método será chamado uma vez ao iniciar a atividade vídeo (onStart)
+      O método setViewSettingsCamera será chamado ao iniciar a atividade no método onStart para
+      atualizar as informações da câmera: resolução, quadros por segundos e campo de visão.
     */
     public static void setViewSettingsCamera(String command) {
 
-        Log.d(TAG, "SET VIEW SETTINGS CAMERA.");
+        Log.d(TAG, "MÉTODO SET VIEW SETTINGS CAMERA.");
 
         stringRequest = new StringRequest(Request.Method.GET, command,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
                         try {
-
                             status = String.valueOf(Html.fromHtml(response));
-
                             resolution = new JSONObject(status).getJSONObject(CATEGORY_SETTINGS).getString("2");
                             framesPerSecond = new JSONObject(status).getJSONObject(CATEGORY_SETTINGS).getString("3");
                             fieldOfView = new JSONObject(status).getJSONObject(CATEGORY_SETTINGS).getString("4");
-
                             resolution = setViewVideo.getVideoResolution(resolution);
                             framesPerSecond = setViewVideo.getVideoFramesPerSecond(framesPerSecond);
                             fieldOfView = setViewVideo.getVideoFieldOfView(fieldOfView);
                             informationAbove = resolution + " / " + " " + framesPerSecond + " / " + " " + fieldOfView;
                             textViewInformationAbove.setText(informationAbove);
-
                         } catch (JSONException exception) {
                             exception.printStackTrace();
-                            Log.e(TAG, "EXCEÇÃO MÉTODO SET VIEW SETTINGS CAMERA: ", exception);
+                            Log.e(TAG, "MÉTODO SET VIEW SETTINGS CAMERA: ", exception);
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -839,12 +790,12 @@ public class VideoActivity extends AppCompatActivity implements
     Métodos Evento Click
      */
 
+    /*
+    O método é responsável por iniciar e encerrar a execução do serviço GPS.
+     */
     public void service(View view) {
-
-        Log.d(TAG, "EVENTO CLICK IMAGE VIEW SERVICE.");
-
+        Log.d(TAG, "MÉTODO SERVICE.");
         serviceIsRunning = GPSService.isServiceRunning();
-
         if( serviceIsRunning ) {
             stopServiceGPS();
         } else {
@@ -853,6 +804,10 @@ public class VideoActivity extends AppCompatActivity implements
         }
     }
 
+    /*
+    Os métodos profile1, profile2, profile3 e profile4 são responsáveis por enviar a requisição com o número
+    do perfil para que os valores dos ângulos dos sensores e gimbal sejam setados.
+     */
     public void profile1(View view) {
         Log.d(TAG, "MÉTODO PROFILE 1.");
         NetworkVolley.sendCommandWithMessage(Hero4BlackCommands.setProfile_1, "ENVIADO PERFIL DE NÚMERO 1.");
@@ -876,6 +831,10 @@ public class VideoActivity extends AppCompatActivity implements
     /*
     Métodos auxiliares: serão utilizados quando os Dialogs Fragments forem selecionados dentro do
     Navigation Drawer
+     */
+    /*
+    O método chooseFramesPerSecond exibe ao usuário o número de quadros por segundos de acordo de acordo
+    com o modo vídeo, formato de vídeo (PAL e NTSC) e resolução.
      */
     public void chooseFramesPerSecond() {
         Log.d(TAG, "CHOOSE FRAMES PER SECOND.");
@@ -1008,6 +967,10 @@ public class VideoActivity extends AppCompatActivity implements
         }
     }
 
+    /*
+    O método chooseFieldOfView exibe ao usuários os dialogs de acordo com o modo de vídeo, formato, resolução e
+    quadros por segundos.
+     */
     public void chooseFieldOfView() {
         Log.d(TAG, "CHOOSE FIELD OF VIEW.");
         try {
@@ -1402,6 +1365,10 @@ public class VideoActivity extends AppCompatActivity implements
         }
     }
 
+    /*
+    O método chooseShutter exibe ao usuário o dialog correspondente ao obturador de acordo com o
+    número de quadros selecionado.
+     */
     public void chooseShutter() {
         Log.d(TAG, "CHOOSE SHUTTER.");
         try {
@@ -1527,25 +1494,39 @@ public class VideoActivity extends AppCompatActivity implements
     /*
     Métodos para Criação / Inicialização dos Executors
      */
-
+    /*
+    O método cria o executor que retorna o modo de vídeo, formato, resolução e quadros por segundos. É
+    utilizado para fazer a escolha dos dialogs corretos usados nos métodos chooseFramesPerSecond, chooseShutter e
+    chooseFieldOfView.
+    */
     private void createExecutorSettingsCamera() {
         Log.d(TAG, "CRIAÇÃO DE EXECUTOR RETORNA CONFIGURAÇÕES DA CÂMERA.");
         executorService = Executors.newSingleThreadExecutor();
     }
 
-
+    /*
+    O executor battery executa a verificação periódica da carga da bateria.
+    */
     private void createExecutorBattery() {
         Log.d(TAG, "CRIAÇÃO DE EXECUTOR VERIFICA STATUS DA BATERIA BAIXA.");
         scheduledExecutorServiceBattery = Executors.newSingleThreadScheduledExecutor();
         scheduledExecutorServiceBattery.scheduleAtFixedRate(runnableLowerBattery, DELAY, TIME_UPDATING_BATTERY, TimeUnit.MINUTES);
     }
 
+    /*
+    O executor SDCard executa periodicamente e verifica se o cartão de memória está quase cheio. Se estiver
+    é exibido uma caixa de diálogo ao usuário e o serviço de GPS é encerrado.
+     */
     private void createExecutorSDCard() {
         Log.d(TAG, "CRIAÇÃO DE EXECUTOR VERIFICA SE CARTÃO SD ESTÁ CHEIO.");
         scheduledExecutorServiceSDCard = Executors.newSingleThreadScheduledExecutor();
         scheduledExecutorServiceSDCard.scheduleAtFixedRate(runnableSDCard, DELAY, TIME_FOR_UPDATING_SDCARD, TimeUnit.MINUTES);
     }
 
+    /*
+    O executor atualiza as informações inferiores: número de vídeos armazenados no cartão de memória, tempo de gravação
+    e tempo de gravação remanescente.
+     */
     private void createExecutorUpdateVideoActivity() {
         Log.d(TAG, "CRIAÇÃO DE EXECUTOR ATUALIZA VIEW DA ATIVIDADE VÍDEO.");
         scheduledExecutorServiceUpdateActivityVideo = Executors.newSingleThreadScheduledExecutor();
@@ -1614,10 +1595,10 @@ public class VideoActivity extends AppCompatActivity implements
 
             if ( ConnectivityManager.CONNECTIVITY_ACTION.equals(action) ) {
 
-                // Network Info não é null
+                // NETWORK INFO DIFERENTE DE NULO
                 if ( networkInfo != null ) {
 
-                    // Conexão do Tipo WIFI
+                    // CONEXÃO DO WIFI
                     if ( networkInfo.getType() == ConnectivityManager.TYPE_WIFI ) {
                         // WIFI CONECTADO À CÂMERA GOPRO
                         if ( ( statusWifi == true ) && ( ipAddress.equals(ConstantsVideo.IP_GOPRO)) ) {
@@ -1661,9 +1642,9 @@ public class VideoActivity extends AppCompatActivity implements
                         }
                     }
                 }
-                // Network Info == null
+                // NETWORK INFO == NULL
                 else {
-                    // Dispositivo sem conexão Wifi
+                    // DISPOSITIVO SEM CONEXÃO WIFI
                     Log.d(TAG, "WIFI GOPRO DESCONECTADO.");
                     imageViewStrengthWifi.setImageResource(R.drawable.wifi_signal_0);
                     imageViewStrengthWifi.setVisibility(View.VISIBLE);
@@ -1691,7 +1672,8 @@ public class VideoActivity extends AppCompatActivity implements
     }
 
     /*
-    Runnables para execução dos executors
+    Runnables para execução dos executors que verifica a carga da bateria, o cartão de memória e
+    atualiza o textview inferior da atividade vídeo.
      */
 
     public class RunnableStatusBattery implements Runnable {
