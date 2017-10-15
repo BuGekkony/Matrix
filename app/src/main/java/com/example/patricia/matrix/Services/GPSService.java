@@ -87,10 +87,10 @@ public class GPSService extends Service implements
         Log.d(TAG, "ON START COMMAND.");
         GPSService.setIsServiceRunning(true);
         startRecording = true;
-        buildGoogleApiClient();     // uma instância GoogleAPIClient é criada
-        connectGoogleApiClient();   // é feita a conexão com a instância GoogleAPIClient
+        buildGoogleApiClient();
+        connectGoogleApiClient();
         if ( googleApiClient.isConnected() ) {
-            startLocationUpdates();    // inicia-se a escuta pelas atualizações, caso a conexão tenha sido feita com sucesso
+            startLocationUpdates();
         }
         return START_NOT_STICKY;
     }
@@ -185,15 +185,6 @@ public class GPSService extends Service implements
         }
     }
 
-    public void writeData_Map(Location location) {
-        Log.d(TAG, "MÉTODO WRITE DATA MAP.");
-        lastUpdateTime = simpleDateFormat.format(new Date()).toString();
-        map.put("Time", lastUpdateTime);
-        map.put("Latitude", String.valueOf(location.getLatitude()));
-        map.put("Longitude", String.valueOf(location.getLongitude()));
-        map.put("Speed", String.valueOf(location.getSpeed()));
-    }
-
     public void startLocationUpdates() {
         Log.d(TAG, "START LOCATION UPDATES.");
         if ( googleApiClient != null ) {
@@ -248,14 +239,10 @@ public class GPSService extends Service implements
         Log.d(TAG, "ON LOCATION CHANGED.");
 
         if ( startRecording ) {
-
             VideoActivity.setFragmentSurfaceView(Hero4BlackCommands.status);
-
             updateNotification(messageStartService);
             NetworkVolley.sendCommandWithMessage(Hero4BlackCommands.setStartCamera, "COMANDO PARA INICIAR GRAVAÇÃO DE VÍDEO ENVIADO. SERVIÇO INICIADO.");
-            //NetworkVolley.sendCommandWithMessage(Hero4BlackCommands.startShutter, "COMANDO PARA INICIAR GRAVAÇÃO DE VÍDEO ENVIADO. SERVIÇO INICIADO.");
             writeDataJSON_Array(location);
-
             startRecording = false;
         }
         else {
@@ -266,17 +253,13 @@ public class GPSService extends Service implements
     @Override
     public void onDestroy() {
         Log.d(TAG, "ON DESTROY.");
-        stopLocationUpdates();                            // encerra recebimento de atualizações do sensor GPS
-        disconnectGoogleApiClient();                     // desconecta GoogleAPIClient
+        stopLocationUpdates();
+        disconnectGoogleApiClient();
         NetworkVolley.sendCommandWithMessage(Hero4BlackCommands.setStopCamera, "COMANDO PARA ENCERRAR GRAVAÇÃO DE VÍDEO ENVIADO.");
-        //NetworkVolley.sendCommandWithMessage(Hero4BlackCommands.stopShutter, "COMANDO PARA ENCERRAR GRAVAÇÃO DE VÍDEO ENVIADO.");
         sendToast("OS DADOS DE GPS SERÃO ENVIADOS VIA WIFI. AGUARDE POR FAVOR.");
         buildJSON_Object();
         NetworkVolley.sendGPS_Data_JSONObject(Hero4BlackCommands.sendGPS_Data, jsonObject);
         VideoActivity.setFragmentVideo(Hero4BlackCommands.status);
-        googleApiClient = null;
-        locationRequest = null;
-        currentLocation = null;
         GPSService.setIsServiceRunning(false);
         cancelNotification();
         super.onDestroy();
