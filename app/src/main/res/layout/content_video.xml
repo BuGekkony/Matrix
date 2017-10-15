@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#000000"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.patricia.matrix.Activities.VideoActivity"
+    tools:showIn="@layout/app_bar_video">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="8"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/textview_information_above_activity_video"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"/>
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_weight="2"
+            android:id="@+id/image_view_strength_wifi_activity_video"
+            android:src="@drawable/wifi_1"
+            android:visibility="invisible"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/button_profile_1"
+            android:text="Perfil 1"
+            android:background="@drawable/buttons_profile"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:onClick="profile1"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/button_profile_2"
+            android:text="Perfil 2"
+            android:background="@drawable/buttons_profile"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:onClick="profile2"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/button_profile_3"
+            android:text="Perfil 3"
+            android:background="@drawable/buttons_profile"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:onClick="profile3"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/button_profile_4"
+            android:text="Perfil 4"
+            android:background="@drawable/buttons_profile"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:onClick="profile4"/>
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/frame_layout_surface_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <ImageView
+            android:id="@+id/activity_video_image_button_service"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_weight="8"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginLeft="142dp"
+            android:layout_marginRight="94dp"
+            android:background="@drawable/bg_circle_shutter"
+            android:clickable="true"
+            android:onClick="service"
+            android:src="@drawable/shutter_circle" />
+
+        <ImageView
+            android:id="@+id/image_view_battery_activity_video"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_weight="2"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="7dp"
+            android:layout_marginRight="2dp"
+            android:layout_marginTop="12dp" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="10">
+
+        <TextView
+            android:id="@+id/textview_information_below_activity_video"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="7"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_marginTop="30dp"
+            android:textColor="#FFFFFF"
+            android:textSize="17sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+</LinearLayout>

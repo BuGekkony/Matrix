@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg"
+    tools:context="com.example.patricia.matrix.Activities.WifiConnectionActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/textview_message_wifi_connection"
+        android:text="@string/message_wifi_connection_activity"
+        android:textSize="18sp"
+        android:textAlignment="gravity"
+        android:textStyle="normal"
+        android:layout_marginTop="40dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageview_wifi_connection"
+        android:src="@drawable/hero4"
+        android:layout_marginTop="24dp"
+        android:layout_below="@+id/textview_message_wifi_connection"
+        android:layout_toStartOf="@+id/imagebutton_next_wifi_connection" />
+
+    <ImageButton
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:id="@+id/imagebutton_wifi_connection"
+        android:src="@drawable/camera"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        android:onClick="checkWifiConnection"
+        android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/textview_message_wifi_connection" />
+
+    <ImageButton
+        android:id="@+id/imagebutton_next_wifi_connection"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:background="@android:color/transparent"
+        android:clickable="true"
+        android:onClick="nextWifiConnection"
+        android:src="@drawable/next_blue"
+        android:layout_alignTop="@+id/imagebutton_wifi_connection"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>

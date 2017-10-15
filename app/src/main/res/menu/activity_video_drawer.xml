@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item android:title="Configurações de vídeo">
+            <menu>
+                <item
+                    android:id="@+id/nav_format"
+                    android:title="Formato" />
+                <item
+                    android:id="@+id/nav_resolution"
+                    android:title="Resolução" />
+                <item
+                    android:id="@+id/nav_frames_per_second"
+                    android:title="Quadros por segundo" />
+                <item
+                    android:id="@+id/nav_field_of_view"
+                    android:title="Campo de visão" />
+                <item
+                    android:id="@+id/nav_balance_white"
+                    android:title="Balanço de branco" />
+                <item
+                    android:id="@+id/nav_color"
+                    android:title="Cor" />
+                <item
+                    android:id="@+id/nav_shutter"
+                    android:title="Obturador" />
+                <item
+                    android:id="@+id/nav_iso"
+                    android:title="Limite ISO" />
+                <item
+                    android:id="@+id/nav_sharpness"
+                    android:title="Nitidez" />
+            </menu>
+        </item>
+    </group>
+
+    <group android:checkableBehavior="single">
+        <item android:title="Excluir arquivos">
+            <menu>
+                <item
+                    android:id="@+id/nav_last_file"
+                    android:title="Excluir o último arquivo" />
+                <item
+                    android:id="@+id/nav_all_files"
+                    android:title="Excluir todos os arquivos do cartão SD" />
+            </menu>
+        </item>
+    </group>
+
+</menu>

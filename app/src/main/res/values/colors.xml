@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="color_floating_button">#D50000</color>
+    <!-- #B71C1C -->
+
+    <color name="red_shutter">#ff511112</color>
+    <color name="button_shutter">#01579B</color>
+    <color name="red_shutter_bright">#ff952123</color>
+    <color name="red_shutter_dark">#ff410102</color>
+    <color name="shutter_border_dark">#ff707070</color>
+    <color name="shutter_border">#ffffff</color>
+
+    <color name="buttons_profile_solid">#212121</color>
+    <color name="buttons_profile_stroke">#E0E0E0</color>
+</resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_settings"
+        android:title="@string/action_settings"
+        app:showAsAction="never" />
+
+    <!--<item
+        android:id="@+id/action_pair_new_module"
+        android:title="@string/action_pair_new_module"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/action_action_module_for_connection"
+        android:title="@string/action_module_for_connection"
+        app:showAsAction="never" /> -->
+</menu>

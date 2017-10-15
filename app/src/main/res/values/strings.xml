@@ -1,0 +1,53 @@
+<resources>
+
+    <string name="app_name">Matrix</string>
+    <string name="title_introductory_activity">Matrix</string>
+    <string name="title_wifi_connection_activity">Check Conexão Wifi</string>
+    <string name="title_status_gps_activity">Check Status GPS</string>
+    <string name="title_bluetooth_connection_activity">Check Conexão Bluetooth</string>
+    <string name="title_activity_video">Matrix</string>
+    <string name="title_activity_settings_angles">Configurações</string>
+
+    <string name="message_introductory_activity">
+        1. Antes de usar o aplicativo, faça o pareamente entre seu smartphone e o módulo bluetooth.
+        \n
+        2. Certifique-se de que o wifi da sua GoPro está como no modo APP em configurações.
+        \n
+        3. Mantenha o som de seu smartphone ativo para o recebimento de possíveis notificações.
+        \n
+        4. Certifique-se de que seu smartphone possui bluetooth.
+        \n
+        5. Certifique-se de tem instalado o Google Play Services.
+        \n
+        6. Android Mínimo: 5.0 (Lollipop).
+        \n
+        7. Siga as instruções nas telas seguintes para iniciar o uso do aplicativo.
+        \n
+    </string>
+
+    <string name="message_wifi_connection_activity">
+        Pressione o botão, em forma de câmera, abaixo para verificar a conexão entre seu
+        smartphone e sua câmera GoPro e pressione o botão em forma de seta para
+        ir para a próxima tela.
+    </string>
+
+    <string name="message_status_gps_activity">
+        Pressione o botão, em forma de câmera, abaixo para verificar o
+        status do GPS de seu smartphone e pressione o botão em forma de seta
+        para ir para a próxima tela.
+    </string>
+
+    <string name="message_bluetooth_connection_activity">
+        Pressione o botão, em forma de câmera, abaixo para conectar seu
+        smartphone ao módulo bluetooth e pressione o botão em forma de
+        seta para ir para a próxima tela.
+    </string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Ângulos</string>
+    <string name="action_pair_new_module">Parear com novo módulo bluetooth</string>
+    <string name="action_module_for_connection">Selecionar módulo bluetooth pareado</string>
+
+</resources>
