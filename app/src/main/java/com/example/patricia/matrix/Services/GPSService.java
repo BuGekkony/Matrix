@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -55,6 +56,7 @@ public class GPSService extends Service implements
     private JSONObject jsonObject;
     private JSONArray jsonArray;
     private Map<String, String> map;
+    private Handler handler;
 
     @Override
     public void onCreate() {
@@ -66,6 +68,7 @@ public class GPSService extends Service implements
         jsonObject = new JSONObject();
         jsonArray = new JSONArray();
         map = new HashMap<>();
+        handler = new Handler();
     }
 
     public void sendToast(String message) {
@@ -250,18 +253,28 @@ public class GPSService extends Service implements
           }
     }
 
+    public void executeHandler() {
+        Log.d(TAG, "MÉTODO EXECUTE HANDLER.");
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                sendToast("OS DADOS DE GPS SERÃO ENVIADOS VIA WIFI. AGUARDE POR FAVOR.");
+                buildJSON_Object();
+                NetworkVolley.sendGPS_Data_JSONObject(Hero4BlackCommands.sendGPS_Data, jsonObject);
+                VideoActivity.setFragmentVideo(Hero4BlackCommands.status);
+                GPSService.setIsServiceRunning(false);
+                cancelNotification();
+            }
+        }, 1500);
+    }
+
     @Override
     public void onDestroy() {
         Log.d(TAG, "ON DESTROY.");
         stopLocationUpdates();
         disconnectGoogleApiClient();
         NetworkVolley.sendCommandWithMessage(Hero4BlackCommands.setStopCamera, "COMANDO PARA ENCERRAR GRAVAÇÃO DE VÍDEO ENVIADO.");
-        sendToast("OS DADOS DE GPS SERÃO ENVIADOS VIA WIFI. AGUARDE POR FAVOR.");
-        buildJSON_Object();
-        NetworkVolley.sendGPS_Data_JSONObject(Hero4BlackCommands.sendGPS_Data, jsonObject);
-        VideoActivity.setFragmentVideo(Hero4BlackCommands.status);
-        GPSService.setIsServiceRunning(false);
-        cancelNotification();
+        executeHandler();
         super.onDestroy();
     }
 
