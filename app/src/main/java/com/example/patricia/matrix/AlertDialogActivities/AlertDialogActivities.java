@@ -20,6 +20,7 @@ public class AlertDialogActivities {
     private AlertDialog.Builder alertDialogErrorSDCard;
     private AlertDialog.Builder alertDialogNoWifi;
     private AlertDialog.Builder alertDialogWifiConnection;
+    private AlertDialog.Builder alertDialogSendErrorStart;
     private Intent intent;
     private final String TITLE_DIALOG_SAVE_DATA = "Salvar Dados";
     private final String MESSAGE_DIALOG_SAVE_DATA = "Ocorreu um erro ao obter a lista de vídeos do servidor. Tente novamente.";
@@ -40,6 +41,9 @@ public class AlertDialogActivities {
     private final String MESSAGE_DIALOG_SEND_DATA_GPS_OK = "Os dados de GPS foram enviados com sucesso.";
     private final String MESSAGE_DIALOG_SEND_DATA_GPS_ERROR = "Ocorreu um erro na transferência dos dados de GPS.";
     private final String TITLE_DIALOG_SEND_DATA_GPS = "Envio de dados GPS";
+    private final String TITLE_DIALOG_ERROR_START = "Execução de serviço";
+    private final String MESSAGE_DIALOG_ERROR_START = "Ocorreu um erro ao enviar o comando responsável por iniciar a gravação do vídeo. O serviço será encerrado. Verifique a conexão wifi e pressione o botão start novamente.";
+    private final String TITLE_DIALOG_ERROR_STOP = "Ocorreu um erro ao enviar o comando responsável por encerrar a gravação do vídeo.";
 
     public AlertDialogActivities(Context context) {
         this.context = context;
@@ -76,6 +80,22 @@ public class AlertDialogActivities {
 
         alertDialogSendDataGPS.setTitle(TITLE_DIALOG_SEND_DATA_GPS)
                 .setMessage(MESSAGE_DIALOG_SEND_DATA_GPS_ERROR)
+                .setPositiveButton("Fechar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int which) {
+                        dialogInterface.cancel();
+                    }
+                }).show();
+    }
+
+    public void alertDialogErrorSendStart() {
+
+        Log.d(TAG, "CAIXA DE DIÁLOGO ERRO AO ENVIAR COMANDO START PARA PROTÓTIPO.");
+
+        alertDialogSendErrorStart = new AlertDialog.Builder(context);
+
+        alertDialogSendErrorStart.setTitle(TITLE_DIALOG_ERROR_START)
+                .setMessage(MESSAGE_DIALOG_ERROR_START)
                 .setPositiveButton("Fechar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int which) {
