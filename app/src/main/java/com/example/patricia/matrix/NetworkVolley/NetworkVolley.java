@@ -13,6 +13,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import com.example.patricia.matrix.Camera.Camera;
 import com.example.patricia.matrix.Notifications.Notifications;
 
 import org.json.JSONObject;
@@ -27,6 +28,7 @@ public class NetworkVolley extends Application {
     private static RequestQueue requestQueue;
     private static StringRequest stringRequest;
     private static JsonObjectRequest jsonObjectRequest;
+    private static Camera camera;
 
     @Override
     public void onCreate() {
@@ -35,6 +37,7 @@ public class NetworkVolley extends Application {
         context = getApplicationContext();
         notifications = new Notifications(context);
         requestQueue = Volley.newRequestQueue(NetworkVolley.this);
+        camera = new Camera(context);
     }
 
     public synchronized static NetworkVolley getInstance() {
