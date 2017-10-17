@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.Html;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -37,6 +38,32 @@ public class Camera {
         alertDialogActivities = new AlertDialogActivities(context);
         serviceIsRunning = false;
         limit = 600.0;
+    }
+
+    public void sendMessageError() {
+        alertDialogActivities.alertDialogErrorSendStart();
+        context.stopService(new Intent(context, GPSService.class));
+    }
+
+    public void sendCommandStartCameraGoPro(String command, final String message) {
+
+        Log.d(TAG, "MÉTODO SEND COMMAND START CAMERA GOPRO.");
+
+        stringRequest = new StringRequest(Request.Method.GET, command,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Log.d(TAG, "RESPONSE: " + response);
+                        Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "SEND COMMAND START CAMERA GOPRO:  " + error.toString());
+                sendMessageError();
+            }
+        });
+        NetworkVolley.getInstance().getRequestQueue().add(stringRequest);
     }
 
     public void SDCard(String command) {
